@@ -1,6 +1,22 @@
 "use strict"
 
 document.addEventListener("DOMContentLoaded", () => {
+let loginBtn = document.querySelector('#login-btn'),
+    logoutBtn = document.querySelector('#logout-btn'),
+    token = localStorage.getItem('token');
+
+    if (token){
+        loginBtn.remove();
+    }else{
+        logoutBtn.remove();
+    }
+
+    logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        window.location = 'file:///C:/Users/user/blogs_frontend/login.html'
+    })
+
     let getBlogs = () => {
         fetch('http://127.0.0.1:8000/api/blogs/')
         .then(response => response.json())
@@ -38,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let voteBtns = document.querySelectorAll('.vote--option')
     voteBtns.forEach((vote, i) =>{
         vote.addEventListener('click', (e) => {
-            let token = 'YOUR TOKEN'
+            let token = localStorage.getItem('token')
             let vote = e.target.dataset.vote
             let blog = e.target.dataset.blog
             console.log(vote)
@@ -57,4 +73,4 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 }
 
-})
+});
